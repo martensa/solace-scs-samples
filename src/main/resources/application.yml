@@ -1,0 +1,32 @@
+spring:
+  cloud:
+    function:
+      definition: trackAndStoreSolaceMessage
+    stream:
+      bindings:
+        trackAndStoreSolaceMessage-in-0:
+          destination: kyndryl/mdg/snapshots/>
+          group: masterDataGovernanceSnapshotEventGroup
+          binder: sap-aem-broker
+      binders:
+        sap-aem-broker:
+          type: solace
+          environment:
+            solace:
+              java:
+                host: <AEM_Host, e.g. tcps://mr-connection-j0a49d01psb.messaging.solace.cloud:55443>
+                msgVpn: <AEM_MsgVpn>
+                clientUsername: <AEM_ClientUsername>
+                clientPassword: <AEM_ClientPassword>
+logging:
+  level:
+    root: info
+    org:
+      springframework: info
+server:
+  port: 8090
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
